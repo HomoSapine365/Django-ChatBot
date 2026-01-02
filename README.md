@@ -18,6 +18,18 @@ A Django-based AI Chat Bot application with authentication and chat history.
 - OpenAI API
 - SQLite (development)
 
+## 📸 Output Screenshots
+
+### Chat Interface
+![Chat Output](screenshots/home-page.png)
+
+### Login Page
+![Login Page](screenshots/signup-page.png)
+
+### Saved Chats
+![Saved Chats](screenshots/saved-chats.png)
+
+
 ## ⚙️ Setup
 
 ```bash
