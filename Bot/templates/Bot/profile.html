@@ -1,0 +1,35 @@
+{% extends "Bot/base_layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="card p-3" style="max-width:720px; margin:auto;">
+  <h4>Profile</h4>
+
+  <div class="d-flex gap-3 align-items-center mb-3">
+    {% if profile.avatar %}
+      <img src="{{ profile.avatar.url }}" alt="avatar" style="width:72px; height:72px; object-fit:cover; border-radius:10px;">
+    {% else %}
+      <div style="width:72px;height:72px;border-radius:10px;background:#ddd;display:flex;align-items:center;justify-content:center;">
+        <strong>{{ request.user.username|slice:":1"|upper }}</strong>
+      </div>
+    {% endif %}
+    <div>
+      <div><strong>{{ request.user.username }}</strong></div>
+      <div class="text-muted small">{{ request.user.email }}</div>
+    </div>
+  </div>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Display name</label>
+        {{ form.display_name }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Avatar</label><br>
+        {{ form.avatar }}
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+  </form>
+</div>
+{% endblock %}

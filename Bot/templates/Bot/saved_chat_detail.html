@@ -1,0 +1,48 @@
+{% extends "Bot/base_layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="p-3">
+    <a href="{% url 'saved_chats_list' %}"
+       class="btn btn-sm btn-outline-secondary mb-3">
+        Back to Saved Chats
+    </a>
+
+    <h4>{{ conversation.title }}</h4>
+    <div class="mb-2 text-muted">
+        Saved on {{ conversation.created_at|date:"Y-m-d H:i" }}
+    </div>
+
+    <div class="saved-chat-box">
+        {% for m in messages %}
+        <div class="d-flex message-row {% if m.sender == 'user' %}justify-content-end{% endif %}">
+            <div class="msg {% if m.sender == 'user' %}msg-user{% else %}msg-bot{% endif %}">
+
+                {% if m.image %}
+                    <img
+                        src="{{ m.image.url }}"
+                        alt="chat image"
+                        style="max-width:240px;
+                               border-radius:10px;
+                               display:block;
+                               margin-bottom:6px;">
+                {% endif %}
+
+                {% if m.text %}
+                    <div>{{ m.text }}</div>
+                {% endif %}
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-3">
+        <a href="{% url 'download_conversation_pdf' conversation.id %}"
+           class="btn btn-primary">
+            Download PDF
+        </a>
+    </div>
+</div>
+<script src="{% static 'Bot/js/chat.js' %}"></script>
+{% endblock %}

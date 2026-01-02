@@ -1,0 +1,92 @@
+{% extends "Bot/base_layout.html" %}
+{% load static %}
+
+{% block title %}Meme ChatBot{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+  <div class="chat-layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <button id="new-chat-btn" class="btn btn-sm btn-outline-dark new-chat-btn mb-2">+ New chat</button>
+      <button id="delete-all-btn" class="btn btn-sm btn-outline-danger w-100 mb-3">Delete All</button>
+      <div class="sidebar-title">History</div>
+      <div id="history-list" class="history-list"></div>
+    </div>
+
+    <!-- MAIN CHAT -->
+    <div class="chat-main">
+
+        <!-- HEADER -->
+        <div class="chat-header d-flex align-items-center gap-2 flex-wrap">
+            <button id="save-btn" class="btn btn-sm btn-outline-success">Save</button>
+            <button id="download-btn" class="btn btn-sm btn-outline-primary" disabled>
+                Download PDF
+            </button>
+
+            <label class="small ms-auto">Theme</label>
+            <select id="theme-select" class="form-select form-select-sm theme-select">
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+            </select>
+        </div>
+
+
+
+      <!-- CHAT BOX -->
+      <div id="chat-box" class="chat-box">
+          {% for m in messages %}
+            <div class="d-flex message-row {% if m.sender == 'user' %}justify-content-end{% endif %}">
+              <div class="msg {% if m.sender == 'user' %}msg-user{% else %}msg-bot{% endif %}">
+                {% if m.image %}
+                  <img src="{{ m.image.url }}" style="max-width:200px;border-radius:10px;margin-bottom:6px;">
+                {% endif %}
+                {{ m.text }}
+              </div>
+            </div>
+          {% endfor %}
+      </div>
+
+
+      <!-- TYPING -->
+      <div id="typing-indicator" class="typing-indicator" style="display:none">
+        <span class="typing-text">Bot is typing</span>
+          <span class="typing-dots">
+              <span></span><span></span><span></span>
+          </span>
+      </div>
+
+        <!-- IMAGE PREVIEW -->
+        <div id="image-preview" style="display:none;" class="mb-2 px-2">
+          <div style="
+              display:inline-flex;
+              align-items:center;
+              gap:8px;
+              background:var(--card-bg);
+              padding:8px;
+              border-radius:10px;
+              box-shadow:var(--shadow);
+          ">
+            <img id="preview-img"
+                 style="width:64px;height:64px;object-fit:cover;border-radius:8px;">
+            <button id="remove-image"
+                    class="btn btn-sm btn-outline-danger">✖</button>
+          </div>
+        </div>
+
+
+      <!-- INPUT -->
+      <div class="input-area">
+        <input id="msg-input" type="text" class="form-control" placeholder="Type a message…">
+          <input type="file" id="image-input" accept="image/*" hidden>
+          <button id="image-btn" class="btn btn-outline-light">📷</button>
+        <button id="mic-btn" class="btn btn-outline-light">🎤</button>
+        <button id="send-btn" class="send-btn">Send</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="{% static 'Bot/js/chat.js' %}" defer></script>
+{% endblock %}

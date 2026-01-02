@@ -1,0 +1,47 @@
+{% extends "Bot/base_layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="p-3">
+    <h3>Saved Chats</h3>
+    <div class="mb-3">
+        <a href="{% url 'chat_home' %}" class="btn btn-sm btn-outline-primary">Back</a>
+    </div>
+
+    <div class="list-group">
+        {% for conv in conversations %}
+            <div class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="flex-grow-1">
+                    <a href="{% url 'saved_chat_detail' conv.id %}" class="text-decoration-none">
+                        <strong
+                            id="conv-title-{{ conv.id }}"
+                            class="d-block mb-1"
+                            style="cursor:pointer;">
+                            {{ conv.title }}
+                        </strong>
+                    </a>
+
+                    <div class="small text-muted">Saved on {{ conv.created_at|date:"Y-m-d H:i" }}</div>
+                    <div class="small text-muted">Messages: {{ conv.messages.count }}</div>
+                </div>
+
+                <div class="ms-3 d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="promptRename({{ conv.id }});">Rename</button>
+
+                    <button class="btn btn-sm btn-outline-danger"
+                            onclick="confirmDelete({{ conv.id }});">
+                        Delete
+                    </button>
+
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-secondary">No saved chats yet. Save a conversation from the chat UI.</div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{% static 'Bot/js/chat.js' %}"></script>
+
+{% endblock %}
+
